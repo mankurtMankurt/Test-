@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rainbow Color Game</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    #instruction {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    .color-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .color-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .color-circle:active {
+      transform: scale(0.95);
+    }
+
+    #message {
+      font-size: 1.2em;
+      margin-top: 20px;
+      height: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rainbow Color Game</h1>
+  <div id="instruction">Find the color: <span id="targetColor">?</span></div>
+  
+  <div class="color-container">
+    <!-- Each circle represents a color of the rainbow -->
+    <div class="color-circle" style="background: red;" data-color="red"></div>
+    <div class="color-circle" style="background: orange;" data-color="orange"></div>
+    <div class="color-circle" style="background: yellow;" data-color="yellow"></div>
+    <div class="color-circle" style="background: green;" data-color="green"></div>
+    <div class="color-circle" style="background: blue;" data-color="blue"></div>
+    <div class="color-circle" style="background: indigo;" data-color="indigo"></div>
+    <div class="color-circle" style="background: violet;" data-color="violet"></div>
+  </div>
+
+  <div id="message"></div>
+
+  <script>
+    // Array of the rainbow colors.
+    const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+    
+    let currentTarget = '';
+
+    // Function to choose a random color from the colors array.
+    function chooseNewColor() {
+      const randomIndex = Math.floor(Math.random() * colors.length);
+      currentTarget = colors[randomIndex];
+      document.getElementById('targetColor').textContent = currentTarget.toUpperCase();
+      // Clear previous message.
+      document.getElementById('message').textContent = '';
+    }
+
+    // Function to handle the click on a color circle.
+    function handleColorClick(event) {
+      const chosenColor = event.currentTarget.getAttribute('data-color');
+      if (chosenColor === currentTarget) {
+        document.getElementById('message').textContent = "Yay! Correct!";
+        // Wait a moment then choose a new color.
+        setTimeout(chooseNewColor, 1500);
+      } else {
+        document.getElementById('message').textContent = "Oops! Try again!";
+      }
+    }
+
+    // Add event listeners to all color circles.
+    const colorCircles = document.querySelectorAll('.color-circle');
+    colorCircles.forEach(circle => {
+      circle.addEventListener('click', handleColorClick);
+    });
+
+    // Start the game by choosing the first target color.
+    chooseNewColor();
+  </script>
+</body>
+</html>
